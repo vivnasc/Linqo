@@ -1,15 +1,23 @@
-# Linqo
+# Linqo — Comunicação Consciente
 
-Repositório de documentação de produto do Linqo.
+Plataforma de mensagens com inteligência relacional integrada. Análise emocional por IA, canais de intenção, priorização automática e memória relacional.
+
+> *"Não esperes permissão para construir o que o mundo precisa."*
 
 ## Estrutura
 
 ```
 docs/
-├── visao-produto.md      # Visão geral e proposta de valor
-├── requisitos.md         # Requisitos do produto
-└── roadmap.md            # Roadmap e planeamento
+├── visao-produto.md      # Visão geral, filosofia e proposta de valor
+├── requisitos.md         # Requisitos, stack técnico e monetização
+└── roadmap.md            # Roadmap semana a semana (12 meses)
 ```
+
+## Documentação
+
+- **[Visão do Produto](docs/visao-produto.md)** — Problema, público-alvo, proposta de valor e objectivos
+- **[Requisitos](docs/requisitos.md)** — Funcionalidades, custos, stack técnico e planos de monetização
+- **[Roadmap](docs/roadmap.md)** — Planeamento detalhado: validação, MVP, crescimento e escala
 
 ## Como contribuir
 

@@ -3,18 +3,18 @@
 :root {
   --background: #fafaf9;
   --foreground: #1c1917;
-  --linqo-50: #f0fdf4;
-  --linqo-100: #dcfce7;
-  --linqo-200: #bbf7d0;
-  --linqo-300: #86efac;
-  --linqo-400: #4ade80;
-  --linqo-500: #22c55e;
-  --linqo-600: #16a34a;
-  --linqo-700: #15803d;
-  --linqo-800: #166534;
-  --linqo-900: #14532d;
-  --linqo-warm: #fef3c7;
-  --linqo-accent: #f59e0b;
+  --linqo-50: #faf5ff;
+  --linqo-100: #f3e8ff;
+  --linqo-200: #e9d5ff;
+  --linqo-300: #d8b4fe;
+  --linqo-400: #c084fc;
+  --linqo-500: #a855f7;
+  --linqo-600: #9333ea;
+  --linqo-700: #7e22ce;
+  --linqo-800: #6b21a8;
+  --linqo-900: #581c87;
+  --linqo-warm: #fff1f2;
+  --linqo-accent: #f97371;
 }
 
 @theme inline {

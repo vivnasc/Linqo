@@ -115,7 +115,7 @@ function Hero() {
             .{" "}
             <br className="hidden md:block" />
             Conecta com{" "}
-            <span className="bg-gradient-to-r from-linqo-accent to-amber-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-linqo-accent to-rose-400 bg-clip-text text-transparent">
               consciência
             </span>
             .
@@ -184,12 +184,12 @@ function Hero() {
               </div>
 
               {/* AI Analysis */}
-              <div className="mx-auto max-w-sm rounded-xl border border-amber-200 bg-amber-50 p-3">
+              <div className="mx-auto max-w-sm rounded-xl border border-linqo-200 bg-linqo-50 p-3">
                 <div className="flex items-center gap-2 mb-2">
-                  <Brain size={14} className="text-amber-600" />
-                  <span className="text-xs font-medium text-amber-700">Análise Linqo</span>
+                  <Brain size={14} className="text-linqo-600" />
+                  <span className="text-xs font-medium text-linqo-700">Análise Linqo</span>
                 </div>
-                <p className="text-xs text-amber-800 leading-relaxed">
+                <p className="text-xs text-linqo-800 leading-relaxed">
                   Tom detectado: <strong>directo, ligeiramente tenso</strong>. Esta frase pode
                   soar como uma exigência. Sugestão: &ldquo;Gostava de conversar contigo sobre ontem,
                   quando tiveres disponibilidade.&rdquo;
@@ -218,42 +218,42 @@ const features = [
     title: "Análise Emocional por IA",
     description:
       "Antes de enviares, a IA analisa o tom da tua mensagem. Directo demais? Passivo-agressivo? Recebes sugestões em tempo real.",
-    color: "bg-purple-100 text-purple-600",
+    color: "bg-linqo-100 text-linqo-600",
   },
   {
     icon: MessageCircle,
     title: "Canais de Intenção",
     description:
       "Separa conversas por contexto — pessoal, profissional, projectos. Cada canal tem o seu tom e as suas regras.",
-    color: "bg-linqo-100 text-linqo-600",
+    color: "bg-indigo-100 text-indigo-600",
   },
   {
     icon: Clock,
     title: "Priorização Inteligente",
     description:
       "As mensagens recebidas são classificadas automaticamente: urgente, pode esperar, quando quiseres. Acabou a ansiedade.",
-    color: "bg-blue-100 text-blue-600",
+    color: "bg-violet-100 text-violet-600",
   },
   {
     icon: Heart,
     title: "Memória Relacional",
     description:
       "O Linqo aprende os padrões de cada relação. Sabe quando uma conversa precisa de mais cuidado e adapta as sugestões.",
-    color: "bg-rose-100 text-rose-600",
+    color: "bg-rose-100 text-rose-500",
   },
   {
     icon: Shield,
     title: "Filtro de Chegada",
     description:
       "Controla quem te pode contactar. Novos contactos passam por aprovação. O teu espaço, as tuas regras.",
-    color: "bg-amber-100 text-amber-600",
+    color: "bg-fuchsia-100 text-fuchsia-600",
   },
   {
     icon: Sparkles,
     title: "Sugestões de Timing",
     description:
       "Nem toda a mensagem deve ser enviada agora. A IA sugere o melhor momento para comunicar, com base no contexto.",
-    color: "bg-teal-100 text-teal-600",
+    color: "bg-pink-100 text-pink-600",
   },
 ];
 

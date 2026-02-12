@@ -14,7 +14,6 @@ import {
   Menu,
   X,
   AlertTriangle,
-  Zap,
   Users,
   Quote,
 } from "lucide-react";
@@ -42,14 +41,11 @@ function Navbar() {
           <a href="#como-funciona" className="text-sm text-stone-600 hover:text-stone-900 transition-colors">
             Como funciona
           </a>
-          <a href="#precos" className="text-sm text-stone-600 hover:text-stone-900 transition-colors">
-            Planos
-          </a>
           <a
-            href="/login"
+            href="/chat"
             className="rounded-full bg-linqo-600 px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-linqo-700"
           >
-            Entrar
+            Experimenta
           </a>
         </div>
 
@@ -69,14 +65,11 @@ function Navbar() {
             <a href="#como-funciona" className="text-sm text-stone-600" onClick={() => setOpen(false)}>
               Como funciona
             </a>
-            <a href="#precos" className="text-sm text-stone-600" onClick={() => setOpen(false)}>
-              Planos
-            </a>
             <a
-              href="/login"
+              href="/chat"
               className="rounded-full bg-linqo-600 px-5 py-2 text-center text-sm font-medium text-white"
             >
-              Entrar
+              Experimenta
             </a>
           </div>
         </div>
@@ -88,35 +81,6 @@ function Navbar() {
 // --- Hero ---
 
 function Hero() {
-  const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const spotsLeft = 143;
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-    setLoading(true);
-    setError("");
-    try {
-      const res = await fetch("/api/waitlist", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-      if (!res.ok && res.status !== 200) {
-        const data = await res.json();
-        throw new Error(data.error || "Erro ao guardar");
-      }
-      setSubmitted(true);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Erro ao guardar. Tenta novamente.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <section className="relative overflow-hidden bg-white pt-32 pb-20 md:pt-40 md:pb-32">
       {/* Background decoration */}
@@ -127,13 +91,13 @@ function Hero() {
 
       <div className="relative mx-auto max-w-6xl px-6">
         <div className="mx-auto max-w-3xl text-center">
-          {/* Urgency badge */}
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-linqo-accent/30 bg-amber-50 px-4 py-1.5 text-sm font-medium text-amber-800 animate-fade-in">
-            <Zap size={14} />
-            <span>Restam {spotsLeft} de 200 lugares gratuitos</span>
+          {/* Badge */}
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-linqo-200 bg-linqo-50 px-4 py-1.5 text-sm font-medium text-linqo-700 animate-fade-in">
+            <Sparkles size={14} />
+            <span>IA relacional para casais e amigos</span>
           </div>
 
-          {/* Headline — works without gradients */}
+          {/* Headline */}
           <h1 className="mb-6 text-4xl font-bold leading-tight tracking-tight text-stone-900 md:text-6xl md:leading-[1.1] animate-slide-up">
             A mensagem que mandaste{" "}
             <span className="text-linqo-600">
@@ -141,51 +105,26 @@ function Hero() {
             </span>
           </h1>
 
-          {/* Subtitle — pain-driven */}
+          {/* Subtitle */}
           <p className="mx-auto mb-10 max-w-xl text-lg text-stone-600 animate-slide-up" style={{ animationDelay: "0.1s" }}>
             70% dos conflitos em relações começam com uma mensagem mal interpretada.
             O Linqo analisa o tom emocional antes de enviares — para que o que escreves
             seja o que realmente queres comunicar.
           </p>
 
-          {/* Waitlist form */}
-          {!submitted ? (
-            <form
-              onSubmit={handleSubmit}
-              className="mx-auto flex max-w-md flex-col gap-3 sm:flex-row animate-slide-up"
-              style={{ animationDelay: "0.2s" }}
+          {/* CTA */}
+          <div className="flex flex-col items-center gap-4 animate-slide-up" style={{ animationDelay: "0.2s" }}>
+            <a
+              href="/chat"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-linqo-600 px-8 py-3.5 text-sm font-medium text-white transition-all hover:bg-linqo-700 hover:shadow-lg hover:shadow-linqo-600/25"
             >
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="O teu email"
-                required
-                className="flex-1 rounded-full border border-stone-300 bg-white px-5 py-3 text-sm text-stone-900 placeholder-stone-400 outline-none transition-all focus:border-linqo-500 focus:ring-2 focus:ring-linqo-500/20"
-              />
-              <button
-                type="submit"
-                disabled={loading}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-linqo-600 px-6 py-3 text-sm font-medium text-white transition-all hover:bg-linqo-700 hover:shadow-lg hover:shadow-linqo-600/25 disabled:opacity-60"
-              >
-                {loading ? "A guardar..." : "Garantir lugar"}
-                {!loading && <ArrowRight size={16} />}
-              </button>
-            </form>
-          ) : (
-            <div className="mx-auto flex max-w-md items-center justify-center gap-2 rounded-full border border-linqo-200 bg-linqo-50 px-6 py-3 text-sm text-linqo-700 animate-fade-in">
-              <Check size={16} />
-              <span>Estás na lista! Vamos contactar-te em breve.</span>
-            </div>
-          )}
-
-          {error && (
-            <p className="mt-3 text-sm text-red-600 animate-fade-in">{error}</p>
-          )}
-
-          <p className="mt-4 text-sm text-stone-500 animate-slide-up" style={{ animationDelay: "0.3s" }}>
-            Acesso gratuito para sempre para quem entra agora. Sem cartão de crédito.
-          </p>
+              Experimenta agora
+              <ArrowRight size={16} />
+            </a>
+            <p className="text-sm text-stone-500">
+              Gratuito. Sem registo obrigatório.
+            </p>
+          </div>
         </div>
 
         {/* Hero image + Chat mockup side by side */}
@@ -680,81 +619,24 @@ function Pricing() {
 // --- Final CTA ---
 
 function FinalCTA() {
-  const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const spotsLeft = 143;
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-    setLoading(true);
-    setError("");
-    try {
-      const res = await fetch("/api/waitlist", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-      if (!res.ok && res.status !== 200) {
-        const data = await res.json();
-        throw new Error(data.error || "Erro ao guardar");
-      }
-      setSubmitted(true);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Erro ao guardar. Tenta novamente.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <section className="bg-linqo-900 py-20 md:py-32">
       <div className="mx-auto max-w-6xl px-6 text-center">
         <h2 className="mb-4 text-3xl font-bold text-white md:text-4xl">
           A próxima discussão que evitares vale mais que qualquer app
         </h2>
-        <p className="mx-auto mb-4 max-w-lg text-lg text-linqo-200">
-          Junta-te aos utilizadores beta que já estão a comunicar melhor.
-          Acesso gratuito para os primeiros 200.
-        </p>
-        <p className="mb-8 text-sm font-medium text-linqo-accent">
-          Restam {spotsLeft} lugares — depois fecha.
+        <p className="mx-auto mb-8 max-w-lg text-lg text-linqo-200">
+          Escreve como sempre. O Linqo mostra-te o que a outra pessoa
+          vai realmente sentir — antes de carregares em enviar.
         </p>
 
-        {!submitted ? (
-          <form
-            onSubmit={handleSubmit}
-            className="mx-auto flex max-w-md flex-col gap-3 sm:flex-row"
-          >
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="O teu email"
-              required
-              className="flex-1 rounded-full border border-linqo-700 bg-linqo-800 px-5 py-3 text-sm text-white placeholder-linqo-400 outline-none transition-all focus:border-linqo-400 focus:ring-2 focus:ring-linqo-400/20"
-            />
-            <button
-              type="submit"
-              disabled={loading}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-linqo-900 transition-all hover:bg-linqo-50 disabled:opacity-60"
-            >
-              {loading ? "A guardar..." : "Garantir o meu lugar"}
-              {!loading && <ArrowRight size={16} />}
-            </button>
-          </form>
-        ) : (
-          <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-linqo-700 bg-linqo-800 px-6 py-3 text-sm text-linqo-200 animate-fade-in">
-            <Check size={16} />
-            <span>Estás na lista! Vamos contactar-te em breve.</span>
-          </div>
-        )}
-
-        {error && (
-          <p className="mt-3 text-sm text-red-400 animate-fade-in">{error}</p>
-        )}
+        <a
+          href="/chat"
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-3.5 text-sm font-medium text-linqo-900 transition-all hover:bg-linqo-50"
+        >
+          Experimenta agora
+          <ArrowRight size={16} />
+        </a>
       </div>
     </section>
   );

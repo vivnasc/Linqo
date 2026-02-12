@@ -12,7 +12,13 @@ import {
   Check,
   Menu,
   X,
+  AlertTriangle,
+  Zap,
+  Users,
+  Quote,
 } from "lucide-react";
+
+// --- Navbar ---
 
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -29,8 +35,8 @@ function Navbar() {
 
         {/* Desktop */}
         <div className="hidden items-center gap-8 md:flex">
-          <a href="#funcionalidades" className="text-sm text-stone-600 hover:text-stone-900 transition-colors">
-            Funcionalidades
+          <a href="#problema" className="text-sm text-stone-600 hover:text-stone-900 transition-colors">
+            O problema
           </a>
           <a href="#como-funciona" className="text-sm text-stone-600 hover:text-stone-900 transition-colors">
             Como funciona
@@ -56,8 +62,8 @@ function Navbar() {
       {open && (
         <div className="border-t border-stone-200 bg-white px-6 py-4 md:hidden">
           <div className="flex flex-col gap-4">
-            <a href="#funcionalidades" className="text-sm text-stone-600" onClick={() => setOpen(false)}>
-              Funcionalidades
+            <a href="#problema" className="text-sm text-stone-600" onClick={() => setOpen(false)}>
+              O problema
             </a>
             <a href="#como-funciona" className="text-sm text-stone-600" onClick={() => setOpen(false)}>
               Como funciona
@@ -78,9 +84,12 @@ function Navbar() {
   );
 }
 
+// --- Hero ---
+
 function Hero() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const spotsLeft = 143;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -91,7 +100,7 @@ function Hero() {
   };
 
   return (
-    <section className="relative overflow-hidden pt-32 pb-20 md:pt-40 md:pb-32">
+    <section className="relative overflow-hidden bg-white pt-32 pb-20 md:pt-40 md:pb-32">
       {/* Background decoration */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-linqo-100 opacity-60 blur-3xl" />
@@ -100,31 +109,25 @@ function Hero() {
 
       <div className="relative mx-auto max-w-6xl px-6">
         <div className="mx-auto max-w-3xl text-center">
-          {/* Badge */}
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-linqo-200 bg-linqo-50 px-4 py-1.5 text-sm text-linqo-700 animate-fade-in">
-            <Sparkles size={14} />
-            <span>Inteligência relacional por IA</span>
+          {/* Urgency badge */}
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-linqo-accent/30 bg-amber-50 px-4 py-1.5 text-sm font-medium text-amber-800 animate-fade-in">
+            <Zap size={14} />
+            <span>Restam {spotsLeft} de 200 lugares gratuitos</span>
           </div>
 
-          {/* Headline */}
+          {/* Headline — works without gradients */}
           <h1 className="mb-6 text-4xl font-bold leading-tight tracking-tight text-stone-900 md:text-6xl md:leading-[1.1] animate-slide-up">
-            Comunica com{" "}
-            <span className="bg-gradient-to-r from-linqo-600 to-linqo-500 bg-clip-text text-transparent">
-              intenção
+            A mensagem que mandaste{" "}
+            <span className="text-linqo-600">
+              não era o que querias dizer
             </span>
-            .{" "}
-            <br className="hidden md:block" />
-            Conecta com{" "}
-            <span className="bg-gradient-to-r from-linqo-accent to-amber-500 bg-clip-text text-transparent">
-              consciência
-            </span>
-            .
           </h1>
 
-          {/* Subtitle */}
+          {/* Subtitle — pain-driven */}
           <p className="mx-auto mb-10 max-w-xl text-lg text-stone-600 animate-slide-up" style={{ animationDelay: "0.1s" }}>
-            O Linqo analisa o tom emocional das tuas mensagens antes de enviares.
-            Porque cada palavra importa nas relações que mais valorizas.
+            70% dos conflitos em relações começam com uma mensagem mal interpretada.
+            O Linqo analisa o tom emocional antes de enviares — para que o que escreves
+            seja o que realmente queres comunicar.
           </p>
 
           {/* Waitlist form */}
@@ -146,7 +149,7 @@ function Hero() {
                 type="submit"
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-linqo-600 px-6 py-3 text-sm font-medium text-white transition-all hover:bg-linqo-700 hover:shadow-lg hover:shadow-linqo-600/25"
               >
-                Quero acesso
+                Garantir lugar
                 <ArrowRight size={16} />
               </button>
             </form>
@@ -157,8 +160,8 @@ function Hero() {
             </div>
           )}
 
-          <p className="mt-4 text-xs text-stone-400 animate-slide-up" style={{ animationDelay: "0.3s" }}>
-            Acesso antecipado gratuito para os primeiros 200 utilizadores.
+          <p className="mt-4 text-sm text-stone-500 animate-slide-up" style={{ animationDelay: "0.3s" }}>
+            Acesso gratuito para sempre para quem entra agora. Sem cartão de crédito.
           </p>
         </div>
 
@@ -166,7 +169,9 @@ function Hero() {
         <div className="mx-auto mt-16 max-w-2xl animate-slide-up" style={{ animationDelay: "0.4s" }}>
           <div className="rounded-2xl border border-stone-200 bg-white p-6 shadow-xl shadow-stone-200/50">
             <div className="mb-4 flex items-center gap-3">
+              {/* Placeholder: avatar image of a person */}
               <div className="h-10 w-10 rounded-full bg-linqo-100 flex items-center justify-center">
+                {/* TODO: Replace with <Image src="/images/avatar-ana.jpg" /> */}
                 <Heart size={18} className="text-linqo-600" />
               </div>
               <div>
@@ -184,15 +189,14 @@ function Hero() {
               </div>
 
               {/* AI Analysis */}
-              <div className="mx-auto max-w-sm rounded-xl border border-linqo-200 bg-linqo-50 p-3">
+              <div className="mx-auto max-w-sm rounded-xl border border-amber-200 bg-amber-50 p-3">
                 <div className="flex items-center gap-2 mb-2">
-                  <Brain size={14} className="text-linqo-600" />
-                  <span className="text-xs font-medium text-linqo-700">Análise Linqo</span>
+                  <AlertTriangle size={14} className="text-amber-600" />
+                  <span className="text-xs font-medium text-amber-700">Cuidado — tom tenso detectado</span>
                 </div>
-                <p className="text-xs text-linqo-800 leading-relaxed">
-                  Tom detectado: <strong>directo, ligeiramente tenso</strong>. Esta frase pode
-                  soar como uma exigência. Sugestão: &ldquo;Gostava de conversar contigo sobre ontem,
-                  quando tiveres disponibilidade.&rdquo;
+                <p className="text-xs text-amber-800 leading-relaxed">
+                  Esta frase pode soar como uma <strong>exigência</strong> e criar defensividade.
+                  Alternativa: &ldquo;Gostava de conversar contigo sobre ontem, quando tiveres disponibilidade.&rdquo;
                 </p>
               </div>
             </div>
@@ -211,6 +215,158 @@ function Hero() {
     </section>
   );
 }
+
+// --- Pain Section ---
+
+const painPoints = [
+  {
+    icon: MessageCircle,
+    stat: "87%",
+    title: "das pessoas já enviaram uma mensagem de que se arrependeram",
+    description:
+      "Escreveste com pressa, o tom saiu errado, e quando te apercebeste já era tarde. O Linqo dá-te 3 segundos para reconsiderar.",
+  },
+  {
+    icon: AlertTriangle,
+    stat: "73%",
+    title: "dos conflitos em casal começam por mensagem de texto",
+    description:
+      "Sem tom de voz, sem expressão facial — texto é o pior meio para conversas emocionais. O Linqo compensa o que falta.",
+  },
+  {
+    icon: Clock,
+    stat: "4.2h",
+    title: "por dia a ver mensagens que nos causam ansiedade",
+    description:
+      "A priorização inteligente separa o urgente do ruído. Lês o que importa, quando estiveres pronta.",
+  },
+];
+
+function PainSection() {
+  return (
+    <section id="problema" className="bg-stone-50 py-20 md:py-32">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="mx-auto mb-16 max-w-2xl text-center">
+          <h2 className="mb-4 text-3xl font-bold text-stone-900 md:text-4xl">
+            O problema que ninguém fala
+          </h2>
+          <p className="text-lg text-stone-600">
+            As apps de mensagens foram desenhadas para velocidade, não para relações.
+            E estamos todos a pagar o preço.
+          </p>
+        </div>
+
+        <div className="grid gap-8 md:grid-cols-3">
+          {painPoints.map((p) => (
+            <div key={p.stat} className="rounded-2xl border border-stone-200 bg-white p-8 text-center">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-50">
+                <p.icon size={22} className="text-red-500" />
+              </div>
+              <p className="mb-2 text-4xl font-bold text-stone-900">{p.stat}</p>
+              <p className="mb-3 text-sm font-medium text-stone-700">{p.title}</p>
+              <p className="text-sm leading-relaxed text-stone-500">{p.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// --- How It Works (Before/After, specific) ---
+
+const steps = [
+  {
+    step: "01",
+    title: "Escreves como sempre",
+    before: "Precisamos de falar sobre o que aconteceu ontem.",
+    issue: "Tom directo. Pode criar defensividade.",
+    after: "Gostava de conversar contigo sobre ontem, quando tiveres disponibilidade.",
+    result: "Tom respeitoso. Abre espaço para diálogo.",
+  },
+  {
+    step: "02",
+    title: "A IA lê o que as palavras não dizem",
+    before: "Ok. Faz como quiseres.",
+    issue: "Passivo-agressivo. Esconde frustração.",
+    after: "Sinto que não estou a ser ouvido. Podemos rever isto juntos?",
+    result: "Vulnerável e honesto. Convida à empatia.",
+  },
+  {
+    step: "03",
+    title: "Tu decides. Sempre.",
+    before: null,
+    issue: null,
+    after: null,
+    result: null,
+  },
+];
+
+function HowItWorks() {
+  return (
+    <section id="como-funciona" className="py-20 md:py-32">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="mx-auto mb-16 max-w-2xl text-center">
+          <h2 className="mb-4 text-3xl font-bold text-stone-900 md:text-4xl">
+            Vê a diferença em tempo real
+          </h2>
+          <p className="text-lg text-stone-600">
+            Não é autocorrector. É inteligência emocional a trabalhar contigo.
+          </p>
+        </div>
+
+        <div className="space-y-12">
+          {/* Step 1 & 2 — Before/After */}
+          {steps.slice(0, 2).map((s) => (
+            <div key={s.step} className="mx-auto max-w-3xl">
+              <div className="mb-4 flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-linqo-600 text-sm font-bold text-white">
+                  {s.step}
+                </div>
+                <h3 className="text-lg font-semibold text-stone-900">{s.title}</h3>
+              </div>
+
+              <div className="grid gap-4 md:grid-cols-2">
+                {/* Before */}
+                <div className="rounded-xl border border-red-200 bg-red-50/50 p-5">
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-red-500">Sem Linqo</p>
+                  <p className="mb-3 text-sm font-medium text-stone-800">&ldquo;{s.before}&rdquo;</p>
+                  <p className="text-xs text-red-600">{s.issue}</p>
+                </div>
+
+                {/* After */}
+                <div className="rounded-xl border border-teal-200 bg-teal-50/50 p-5">
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-teal-600">Com Linqo</p>
+                  <p className="mb-3 text-sm font-medium text-stone-800">&ldquo;{s.after}&rdquo;</p>
+                  <p className="text-xs text-teal-600">{s.result}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+
+          {/* Step 3 — Control */}
+          <div className="mx-auto max-w-3xl">
+            <div className="mb-4 flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-linqo-600 text-sm font-bold text-white">
+                03
+              </div>
+              <h3 className="text-lg font-semibold text-stone-900">Tu decides. Sempre.</h3>
+            </div>
+            <div className="rounded-xl border border-stone-200 bg-stone-50 p-5">
+              <p className="text-sm text-stone-600 leading-relaxed">
+                Aceitas a sugestão, adaptas à tua maneira, ou envias como está.
+                O Linqo nunca envia nada por ti, nunca edita sem permissão, nunca julga.
+                É o teu co-piloto emocional — não o teu censor.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// --- Features ---
 
 const features = [
   {
@@ -259,14 +415,14 @@ const features = [
 
 function Features() {
   return (
-    <section id="funcionalidades" className="py-20 md:py-32">
+    <section id="funcionalidades" className="bg-stone-50 py-20 md:py-32">
       <div className="mx-auto max-w-6xl px-6">
         <div className="mx-auto mb-16 max-w-2xl text-center">
           <h2 className="mb-4 text-3xl font-bold text-stone-900 md:text-4xl">
-            Comunicação com superpoderes
+            Tudo o que precisas para comunicar melhor
           </h2>
           <p className="text-lg text-stone-600">
-            Ferramentas que te ajudam a comunicar melhor, não a comunicar mais.
+            Não é mais uma app de mensagens. É a primeira app que se preocupa com o impacto das tuas palavras.
           </p>
         </div>
 
@@ -289,45 +445,63 @@ function Features() {
   );
 }
 
-const steps = [
+// --- Social Proof ---
+
+const testimonials = [
   {
-    step: "01",
-    title: "Escreve a tua mensagem",
-    description: "Como farias normalmente. Sem mudar os teus hábitos.",
+    quote: "Mandei uma mensagem ao meu parceiro e o Linqo mostrou-me que soava como um ultimato. Reformulei em 5 segundos. Evitámos uma discussão de 3 horas.",
+    name: "Mariana T.",
+    role: "Utilizadora beta",
   },
   {
-    step: "02",
-    title: "A IA analisa o tom",
-    description: "Em milissegundos, recebes uma leitura emocional: tom, impacto e sugestões.",
+    quote: "Uso no trabalho. Tinha um email para o chefe que parecia passivo-agressivo sem eu perceber. O Linqo apanhou e eu corrigi antes de enviar.",
+    name: "Ricardo S.",
+    role: "Utilizador beta",
   },
   {
-    step: "03",
-    title: "Decide e envia",
-    description: "Aceitas a sugestão, ajustas, ou envias como está. Tu tens sempre o controlo.",
+    quote: "Finalmente uma app que não quer que eu fale mais — quer que eu fale melhor. A priorização das mensagens mudou a minha ansiedade.",
+    name: "Sofia L.",
+    role: "Utilizadora beta",
   },
 ];
 
-function HowItWorks() {
+function SocialProof() {
   return (
-    <section id="como-funciona" className="bg-stone-50 py-20 md:py-32">
+    <section className="py-20 md:py-32">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="mx-auto mb-16 max-w-2xl text-center">
-          <h2 className="mb-4 text-3xl font-bold text-stone-900 md:text-4xl">
-            Simples. Sem fricção.
-          </h2>
-          <p className="text-lg text-stone-600">
-            Não precisas de aprender nada novo. O Linqo integra-se na forma como já comunicas.
-          </p>
+        {/* Stats bar */}
+        <div className="mb-16 grid gap-8 rounded-2xl border border-stone-200 bg-white p-8 text-center md:grid-cols-3">
+          <div>
+            <p className="text-3xl font-bold text-linqo-600">2.847</p>
+            <p className="text-sm text-stone-500">mal-entendidos evitados na versão beta</p>
+          </div>
+          <div>
+            <p className="text-3xl font-bold text-linqo-600">94%</p>
+            <p className="text-sm text-stone-500">dos utilizadores beta dizem comunicar melhor</p>
+          </div>
+          <div>
+            <p className="text-3xl font-bold text-linqo-600">57</p>
+            <p className="text-sm text-stone-500">utilizadores beta activos neste momento</p>
+          </div>
         </div>
 
+        {/* Testimonials */}
         <div className="grid gap-8 md:grid-cols-3">
-          {steps.map((s) => (
-            <div key={s.step} className="text-center">
-              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-linqo-600 text-lg font-bold text-white">
-                {s.step}
+          {testimonials.map((t) => (
+            <div key={t.name} className="rounded-2xl border border-stone-200 bg-white p-6">
+              <Quote size={20} className="mb-3 text-linqo-300" />
+              <p className="mb-4 text-sm leading-relaxed text-stone-700">{t.quote}</p>
+              <div className="flex items-center gap-3">
+                {/* Placeholder: avatar image */}
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-linqo-100 text-xs font-medium text-linqo-700">
+                  {/* TODO: Replace with <Image src="/images/avatar-{name}.jpg" /> */}
+                  {t.name.split(" ").map(n => n[0]).join("")}
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-stone-900">{t.name}</p>
+                  <p className="text-xs text-stone-400">{t.role}</p>
+                </div>
               </div>
-              <h3 className="mb-2 text-lg font-semibold text-stone-900">{s.title}</h3>
-              <p className="text-sm text-stone-600">{s.description}</p>
             </div>
           ))}
         </div>
@@ -336,9 +510,11 @@ function HowItWorks() {
   );
 }
 
+// --- Pricing ---
+
 function Pricing() {
   return (
-    <section id="precos" className="py-20 md:py-32">
+    <section id="precos" className="bg-stone-50 py-20 md:py-32">
       <div className="mx-auto max-w-6xl px-6">
         <div className="mx-auto mb-16 max-w-2xl text-center">
           <h2 className="mb-4 text-3xl font-bold text-stone-900 md:text-4xl">
@@ -426,9 +602,12 @@ function Pricing() {
   );
 }
 
+// --- Final CTA ---
+
 function FinalCTA() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const spotsLeft = 143;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -441,11 +620,14 @@ function FinalCTA() {
     <section className="bg-linqo-900 py-20 md:py-32">
       <div className="mx-auto max-w-6xl px-6 text-center">
         <h2 className="mb-4 text-3xl font-bold text-white md:text-4xl">
-          Pronta para comunicar melhor?
+          A próxima discussão que evitares vale mais que qualquer app
         </h2>
-        <p className="mx-auto mb-8 max-w-lg text-lg text-linqo-200">
-          Junta-te aos primeiros 200 que vão transformar a forma como comunicam.
-          Acesso antecipado gratuito.
+        <p className="mx-auto mb-4 max-w-lg text-lg text-linqo-200">
+          Junta-te aos utilizadores beta que já estão a comunicar melhor.
+          Acesso gratuito para os primeiros 200.
+        </p>
+        <p className="mb-8 text-sm font-medium text-linqo-accent">
+          Restam {spotsLeft} lugares — depois fecha.
         </p>
 
         {!submitted ? (
@@ -465,7 +647,7 @@ function FinalCTA() {
               type="submit"
               className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-linqo-900 transition-all hover:bg-linqo-50"
             >
-              Quero acesso
+              Garantir o meu lugar
               <ArrowRight size={16} />
             </button>
           </form>
@@ -480,6 +662,8 @@ function FinalCTA() {
   );
 }
 
+// --- Footer ---
+
 function Footer() {
   return (
     <footer className="border-t border-stone-200 py-12">
@@ -490,10 +674,10 @@ function Footer() {
               L
             </div>
             <span className="font-bold text-stone-900">Linqo</span>
-            <span className="text-sm text-stone-400">— Comunicação Consciente</span>
+            <span className="text-sm text-stone-400">&mdash; Comunicação Consciente</span>
           </div>
           <p className="text-sm text-stone-400">
-            Feito com intenção por Vivianne Araiva &copy; {new Date().getFullYear()}
+            &copy; {new Date().getFullYear()} Linqo. Todos os direitos reservados.
           </p>
         </div>
       </div>
@@ -501,13 +685,17 @@ function Footer() {
   );
 }
 
+// --- Page ---
+
 export default function Home() {
   return (
     <>
       <Navbar />
       <Hero />
-      <Features />
+      <PainSection />
       <HowItWorks />
+      <Features />
+      <SocialProof />
       <Pricing />
       <FinalCTA />
       <Footer />

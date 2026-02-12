@@ -50,9 +50,9 @@ interface Message {
 // --- Data ---
 
 const channels: Channel[] = [
-  { id: "pessoal", name: "Pessoal", icon: Heart, color: "text-rose-500", bgColor: "bg-rose-100" },
-  { id: "profissional", name: "Profissional", icon: Briefcase, color: "text-indigo-600", bgColor: "bg-indigo-100" },
-  { id: "projectos", name: "Projectos", icon: FolderOpen, color: "text-fuchsia-600", bgColor: "bg-fuchsia-100" },
+  { id: "pessoal", name: "Pessoal", icon: Heart, color: "text-amber-700", bgColor: "bg-amber-100" },
+  { id: "profissional", name: "Profissional", icon: Briefcase, color: "text-sky-700", bgColor: "bg-sky-100" },
+  { id: "projectos", name: "Projectos", icon: FolderOpen, color: "text-teal-700", bgColor: "bg-teal-100" },
 ];
 
 const demoContacts: Contact[] = [
@@ -227,10 +227,10 @@ function ChannelSelector({
 
 function EmotionalBadge({ analysis }: { analysis: EmotionalAnalysis }) {
   const colorMap = {
-    positivo: "border-violet-200 bg-violet-50 text-violet-700",
+    positivo: "border-teal-200 bg-teal-50 text-teal-800",
     neutro: "border-stone-200 bg-stone-50 text-stone-600",
-    negativo: "border-rose-200 bg-rose-50 text-rose-700",
-    misto: "border-fuchsia-200 bg-fuchsia-50 text-fuchsia-700",
+    negativo: "border-red-200 bg-red-50 text-red-800",
+    misto: "border-amber-200 bg-amber-50 text-amber-800",
   };
 
   const tensionBar = (
@@ -240,10 +240,10 @@ function EmotionalBadge({ analysis }: { analysis: EmotionalAnalysis }) {
         <div
           className={`h-full rounded-full transition-all ${
             analysis.tension > 6
-              ? "bg-rose-500"
+              ? "bg-red-500"
               : analysis.tension > 3
-                ? "bg-fuchsia-400"
-                : "bg-violet-400"
+                ? "bg-amber-500"
+                : "bg-teal-500"
           }`}
           style={{ width: `${analysis.tension * 10}%` }}
         />

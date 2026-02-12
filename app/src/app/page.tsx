@@ -115,7 +115,7 @@ function Hero() {
             .{" "}
             <br className="hidden md:block" />
             Conecta com{" "}
-            <span className="bg-gradient-to-r from-linqo-accent to-rose-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-linqo-accent to-amber-500 bg-clip-text text-transparent">
               consciência
             </span>
             .
@@ -218,42 +218,42 @@ const features = [
     title: "Análise Emocional por IA",
     description:
       "Antes de enviares, a IA analisa o tom da tua mensagem. Directo demais? Passivo-agressivo? Recebes sugestões em tempo real.",
-    color: "bg-linqo-100 text-linqo-600",
+    color: "bg-linqo-100 text-linqo-700",
   },
   {
     icon: MessageCircle,
     title: "Canais de Intenção",
     description:
       "Separa conversas por contexto — pessoal, profissional, projectos. Cada canal tem o seu tom e as suas regras.",
-    color: "bg-indigo-100 text-indigo-600",
+    color: "bg-sky-100 text-sky-700",
   },
   {
     icon: Clock,
     title: "Priorização Inteligente",
     description:
       "As mensagens recebidas são classificadas automaticamente: urgente, pode esperar, quando quiseres. Acabou a ansiedade.",
-    color: "bg-violet-100 text-violet-600",
+    color: "bg-slate-100 text-slate-700",
   },
   {
     icon: Heart,
     title: "Memória Relacional",
     description:
       "O Linqo aprende os padrões de cada relação. Sabe quando uma conversa precisa de mais cuidado e adapta as sugestões.",
-    color: "bg-rose-100 text-rose-500",
+    color: "bg-amber-100 text-amber-700",
   },
   {
     icon: Shield,
     title: "Filtro de Chegada",
     description:
       "Controla quem te pode contactar. Novos contactos passam por aprovação. O teu espaço, as tuas regras.",
-    color: "bg-fuchsia-100 text-fuchsia-600",
+    color: "bg-stone-200 text-stone-700",
   },
   {
     icon: Sparkles,
     title: "Sugestões de Timing",
     description:
       "Nem toda a mensagem deve ser enviada agora. A IA sugere o melhor momento para comunicar, com base no contexto.",
-    color: "bg-pink-100 text-pink-600",
+    color: "bg-teal-100 text-teal-700",
   },
 ];
 

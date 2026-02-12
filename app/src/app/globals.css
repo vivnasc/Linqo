@@ -3,18 +3,18 @@
 :root {
   --background: #fafaf9;
   --foreground: #1c1917;
-  --linqo-50: #faf5ff;
-  --linqo-100: #f3e8ff;
-  --linqo-200: #e9d5ff;
-  --linqo-300: #d8b4fe;
-  --linqo-400: #c084fc;
-  --linqo-500: #a855f7;
-  --linqo-600: #9333ea;
-  --linqo-700: #7e22ce;
-  --linqo-800: #6b21a8;
-  --linqo-900: #581c87;
-  --linqo-warm: #fff1f2;
-  --linqo-accent: #f97371;
+  --linqo-50: #eef2ff;
+  --linqo-100: #e0e7ff;
+  --linqo-200: #c7d2fe;
+  --linqo-300: #a5b4fc;
+  --linqo-400: #818cf8;
+  --linqo-500: #6366f1;
+  --linqo-600: #4f46e5;
+  --linqo-700: #4338ca;
+  --linqo-800: #3730a3;
+  --linqo-900: #312e81;
+  --linqo-warm: #fffbeb;
+  --linqo-accent: #d97706;
 }
 
 @theme inline {
@@ -36,12 +36,7 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0c0a09;
-    --foreground: #fafaf9;
-  }
-}
+/* Force light mode — dark mode not yet supported */
 
 body {
   background: var(--background);

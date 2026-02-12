@@ -165,70 +165,70 @@ function Hero() {
           </p>
         </div>
 
-        {/* Preview mockup */}
-        <div className="mx-auto mt-16 max-w-2xl animate-slide-up" style={{ animationDelay: "0.4s" }}>
-          <div className="rounded-2xl border border-stone-200 bg-white p-6 shadow-xl shadow-stone-200/50">
-            <div className="mb-4 flex items-center gap-3">
-              {/* Placeholder: avatar image of a person */}
-              <div className="h-10 w-10 rounded-full bg-linqo-100 flex items-center justify-center">
+        {/* Preview mockup — looks like a real chat app */}
+        <div className="mx-auto mt-16 max-w-sm animate-slide-up" style={{ animationDelay: "0.4s" }}>
+          <div className="rounded-3xl border border-stone-200 bg-stone-50 shadow-xl shadow-stone-200/50 overflow-hidden">
+            {/* App header */}
+            <div className="flex items-center gap-3 bg-white px-4 py-3 border-b border-stone-100">
+              <div className="h-8 w-8 rounded-full bg-linqo-100 flex items-center justify-center">
                 {/* TODO: Replace with <Image src="/images/avatar-ana.jpg" /> */}
-                <Heart size={18} className="text-linqo-600" />
+                <Heart size={14} className="text-linqo-600" />
               </div>
-              <div>
-                <p className="text-sm font-medium text-stone-900">Canal: Pessoal</p>
-                <p className="text-xs text-stone-500">Conversa com Ana</p>
+              <div className="flex-1">
+                <p className="text-sm font-medium text-stone-900">Ana</p>
+                <p className="text-[10px] text-stone-400">online</p>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="h-1.5 w-1.5 rounded-full bg-teal-400" />
+                <span className="text-[10px] text-teal-600 font-medium">Linqo</span>
               </div>
             </div>
 
-            {/* Step label */}
-            <div className="mb-3 flex items-center gap-2">
-              <div className="h-5 w-5 rounded-full bg-linqo-100 flex items-center justify-center text-[10px] font-bold text-linqo-600">1</div>
-              <span className="text-xs font-medium text-stone-400 uppercase tracking-wide">Escreves normalmente</span>
-            </div>
+            {/* Chat area */}
+            <div className="px-4 py-4 space-y-3">
+              {/* Received message */}
+              <div className="flex justify-start">
+                <div className="max-w-[75%] rounded-2xl rounded-bl-sm bg-white px-3.5 py-2 text-sm text-stone-800 shadow-sm">
+                  Podemos falar logo à noite?
+                </div>
+              </div>
 
-            {/* Input — message still in draft, NOT sent */}
-            <div className="mb-3 rounded-xl border-2 border-linqo-300 bg-white px-4 py-3">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-stone-800">Precisamos de falar sobre o que aconteceu ontem.</span>
-                <div className="flex items-center gap-1.5 ml-3 shrink-0">
-                  <div className="h-2 w-2 rounded-full bg-linqo-400 animate-pulse-gentle" />
-                  <span className="text-[10px] text-linqo-600 font-medium">A analisar...</span>
+              {/* Typing — message in draft */}
+              <div className="flex justify-end">
+                <div className="max-w-[75%] rounded-2xl rounded-br-sm bg-linqo-600 px-3.5 py-2 text-sm text-white opacity-60">
+                  Precisamos de falar sobre o que aconteceu ontem.
+                  <span className="ml-1 text-[10px] text-linqo-200 italic">rascunho</span>
                 </div>
               </div>
             </div>
 
-            {/* Step label */}
-            <div className="mb-3 flex items-center gap-2">
-              <div className="h-5 w-5 rounded-full bg-amber-100 flex items-center justify-center text-[10px] font-bold text-amber-600">2</div>
-              <span className="text-xs font-medium text-stone-400 uppercase tracking-wide">A IA analisa antes de enviares</span>
-            </div>
-
-            {/* AI Analysis — appears BEFORE sending */}
-            <div className="mb-3 rounded-xl border border-amber-200 bg-amber-50 p-3">
-              <div className="flex items-center gap-2 mb-2">
-                <AlertTriangle size={14} className="text-amber-600" />
-                <span className="text-xs font-medium text-amber-700">Cuidado — tom tenso detectado</span>
+            {/* AI suggestion — pops up between chat and input */}
+            <div className="mx-3 mb-3 rounded-xl border border-amber-200 bg-amber-50 p-3">
+              <div className="flex items-center gap-1.5 mb-1.5">
+                <AlertTriangle size={12} className="text-amber-500" />
+                <span className="text-[11px] font-medium text-amber-700">Pode soar como exigência</span>
               </div>
-              <p className="text-xs text-amber-800 leading-relaxed">
-                Esta frase pode soar como uma <strong>exigência</strong> e criar defensividade.
-                Alternativa: &ldquo;Gostava de conversar contigo sobre ontem, quando tiveres disponibilidade.&rdquo;
+              <p className="text-[11px] text-amber-800 leading-relaxed mb-2.5">
+                Experimenta: &ldquo;Gostava de conversar contigo sobre ontem, quando tiveres disponibilidade.&rdquo;
               </p>
+              <div className="flex gap-2">
+                <button className="flex-1 rounded-lg border border-amber-200 bg-white px-2 py-1.5 text-[11px] font-medium text-stone-500">
+                  Ignorar
+                </button>
+                <button className="flex-1 rounded-lg bg-linqo-600 px-2 py-1.5 text-[11px] font-medium text-white">
+                  Usar sugestão
+                </button>
+              </div>
             </div>
 
-            {/* Step label */}
-            <div className="mb-3 flex items-center gap-2">
-              <div className="h-5 w-5 rounded-full bg-teal-100 flex items-center justify-center text-[10px] font-bold text-teal-600">3</div>
-              <span className="text-xs font-medium text-stone-400 uppercase tracking-wide">Tu decides o que enviar</span>
-            </div>
-
-            {/* Action buttons — user chooses */}
-            <div className="flex gap-2">
-              <button className="flex-1 rounded-lg border border-stone-200 bg-white px-3 py-2 text-xs font-medium text-stone-600 hover:bg-stone-50 transition-colors">
-                Enviar original
-              </button>
-              <button className="flex-1 rounded-lg bg-linqo-600 px-3 py-2 text-xs font-medium text-white hover:bg-linqo-700 transition-colors">
-                Usar sugestão
-              </button>
+            {/* Input bar */}
+            <div className="flex items-center gap-2 bg-white border-t border-stone-100 px-4 py-3">
+              <div className="flex-1 rounded-full bg-stone-100 px-3.5 py-2">
+                <span className="text-xs text-stone-400">Mensagem...</span>
+              </div>
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-linqo-600">
+                <ArrowRight size={14} className="text-white" />
+              </div>
             </div>
           </div>
         </div>

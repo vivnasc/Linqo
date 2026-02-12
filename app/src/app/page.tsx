@@ -180,34 +180,55 @@ function Hero() {
               </div>
             </div>
 
-            {/* Chat messages */}
-            <div className="space-y-3 mb-4">
-              <div className="flex justify-end">
-                <div className="max-w-xs rounded-2xl rounded-tr-sm bg-linqo-600 px-4 py-2.5 text-sm text-white">
-                  Precisamos de falar sobre o que aconteceu ontem.
-                </div>
-              </div>
+            {/* Step label */}
+            <div className="mb-3 flex items-center gap-2">
+              <div className="h-5 w-5 rounded-full bg-linqo-100 flex items-center justify-center text-[10px] font-bold text-linqo-600">1</div>
+              <span className="text-xs font-medium text-stone-400 uppercase tracking-wide">Escreves normalmente</span>
+            </div>
 
-              {/* AI Analysis */}
-              <div className="mx-auto max-w-sm rounded-xl border border-amber-200 bg-amber-50 p-3">
-                <div className="flex items-center gap-2 mb-2">
-                  <AlertTriangle size={14} className="text-amber-600" />
-                  <span className="text-xs font-medium text-amber-700">Cuidado — tom tenso detectado</span>
+            {/* Input — message still in draft, NOT sent */}
+            <div className="mb-3 rounded-xl border-2 border-linqo-300 bg-white px-4 py-3">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-stone-800">Precisamos de falar sobre o que aconteceu ontem.</span>
+                <div className="flex items-center gap-1.5 ml-3 shrink-0">
+                  <div className="h-2 w-2 rounded-full bg-linqo-400 animate-pulse-gentle" />
+                  <span className="text-[10px] text-linqo-600 font-medium">A analisar...</span>
                 </div>
-                <p className="text-xs text-amber-800 leading-relaxed">
-                  Esta frase pode soar como uma <strong>exigência</strong> e criar defensividade.
-                  Alternativa: &ldquo;Gostava de conversar contigo sobre ontem, quando tiveres disponibilidade.&rdquo;
-                </p>
               </div>
             </div>
 
-            {/* Input */}
-            <div className="flex items-center gap-2 rounded-xl border border-stone-200 bg-stone-50 px-4 py-3">
-              <span className="flex-1 text-sm text-stone-400">Escreve a tua mensagem...</span>
-              <div className="flex items-center gap-1.5">
-                <div className="h-2 w-2 rounded-full bg-linqo-400 animate-pulse-gentle" />
-                <span className="text-xs text-linqo-600 font-medium">IA activa</span>
+            {/* Step label */}
+            <div className="mb-3 flex items-center gap-2">
+              <div className="h-5 w-5 rounded-full bg-amber-100 flex items-center justify-center text-[10px] font-bold text-amber-600">2</div>
+              <span className="text-xs font-medium text-stone-400 uppercase tracking-wide">A IA analisa antes de enviares</span>
+            </div>
+
+            {/* AI Analysis — appears BEFORE sending */}
+            <div className="mb-3 rounded-xl border border-amber-200 bg-amber-50 p-3">
+              <div className="flex items-center gap-2 mb-2">
+                <AlertTriangle size={14} className="text-amber-600" />
+                <span className="text-xs font-medium text-amber-700">Cuidado — tom tenso detectado</span>
               </div>
+              <p className="text-xs text-amber-800 leading-relaxed">
+                Esta frase pode soar como uma <strong>exigência</strong> e criar defensividade.
+                Alternativa: &ldquo;Gostava de conversar contigo sobre ontem, quando tiveres disponibilidade.&rdquo;
+              </p>
+            </div>
+
+            {/* Step label */}
+            <div className="mb-3 flex items-center gap-2">
+              <div className="h-5 w-5 rounded-full bg-teal-100 flex items-center justify-center text-[10px] font-bold text-teal-600">3</div>
+              <span className="text-xs font-medium text-stone-400 uppercase tracking-wide">Tu decides o que enviar</span>
+            </div>
+
+            {/* Action buttons — user chooses */}
+            <div className="flex gap-2">
+              <button className="flex-1 rounded-lg border border-stone-200 bg-white px-3 py-2 text-xs font-medium text-stone-600 hover:bg-stone-50 transition-colors">
+                Enviar original
+              </button>
+              <button className="flex-1 rounded-lg bg-linqo-600 px-3 py-2 text-xs font-medium text-white hover:bg-linqo-700 transition-colors">
+                Usar sugestão
+              </button>
             </div>
           </div>
         </div>

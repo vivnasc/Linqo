@@ -4,14 +4,47 @@ Plataforma de mensagens com inteligência relacional integrada. Análise emocion
 
 > *"Não esperes permissão para construir o que o mundo precisa."*
 
-## Estrutura
+## Estrutura do Projecto
 
 ```
-docs/
-├── visao-produto.md      # Visão geral, filosofia e proposta de valor
-├── requisitos.md         # Requisitos, stack técnico e monetização
-└── roadmap.md            # Roadmap semana a semana (12 meses)
+docs/                    # Documentação do produto
+├── visao-produto.md     # Visão geral, filosofia e proposta de valor
+├── requisitos.md        # Requisitos, stack técnico e monetização
+└── roadmap.md           # Roadmap semana a semana (12 meses)
+
+app/                     # Web App (Next.js + Supabase)
+├── src/
+│   ├── app/
+│   │   ├── page.tsx             # Landing page com lista de espera
+│   │   ├── login/page.tsx       # Login
+│   │   ├── registro/page.tsx    # Registo
+│   │   ├── chat/page.tsx        # Chat com canais de intenção
+│   │   └── api/
+│   │       ├── waitlist/route.ts   # API lista de espera
+│   │       └── analyze/route.ts    # API análise emocional
+│   └── lib/
+│       ├── supabase/            # Configuração Supabase
+│       └── ai/                  # Motor de análise emocional
+└── supabase/
+    └── schema.sql               # Schema da base de dados
 ```
+
+## Quick Start
+
+```bash
+cd app
+npm install
+cp .env.local.example .env.local
+# Edita .env.local com as tuas credenciais Supabase
+npm run dev
+```
+
+## Stack Técnico
+
+- **Frontend:** Next.js 16 + React 19 + Tailwind CSS 4
+- **Backend:** Supabase (Auth + PostgreSQL + Realtime)
+- **IA:** Análise emocional local + API OpenAI (opcional)
+- **Deploy:** Vercel (free tier)
 
 ## Documentação
 

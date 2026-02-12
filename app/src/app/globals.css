@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fafaf9;
+  --foreground: #1c1917;
+  --linqo-50: #f0fdf4;
+  --linqo-100: #dcfce7;
+  --linqo-200: #bbf7d0;
+  --linqo-300: #86efac;
+  --linqo-400: #4ade80;
+  --linqo-500: #22c55e;
+  --linqo-600: #16a34a;
+  --linqo-700: #15803d;
+  --linqo-800: #166534;
+  --linqo-900: #14532d;
+  --linqo-warm: #fef3c7;
+  --linqo-accent: #f59e0b;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-linqo-50: var(--linqo-50);
+  --color-linqo-100: var(--linqo-100);
+  --color-linqo-200: var(--linqo-200);
+  --color-linqo-300: var(--linqo-300);
+  --color-linqo-400: var(--linqo-400);
+  --color-linqo-500: var(--linqo-500);
+  --color-linqo-600: var(--linqo-600);
+  --color-linqo-700: var(--linqo-700);
+  --color-linqo-800: var(--linqo-800);
+  --color-linqo-900: var(--linqo-900);
+  --color-linqo-warm: var(--linqo-warm);
+  --color-linqo-accent: var(--linqo-accent);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0c0a09;
+    --foreground: #fafaf9;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* Animations */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-gentle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.8s ease-out forwards;
+}
+
+.animate-pulse-gentle {
+  animation: pulse-gentle 2s ease-in-out infinite;
+}

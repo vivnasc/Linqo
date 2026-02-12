@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import {
   Heart,
   MessageCircle,
@@ -165,14 +166,37 @@ function Hero() {
           </p>
         </div>
 
-        {/* Preview mockup — looks like a real chat app */}
-        <div className="mx-auto mt-16 max-w-sm animate-slide-up" style={{ animationDelay: "0.4s" }}>
+        {/* Hero image + Chat mockup side by side */}
+        <div className="mx-auto mt-16 max-w-4xl animate-slide-up grid md:grid-cols-2 gap-8 items-center" style={{ animationDelay: "0.4s" }}>
+          {/* Hero photo */}
+          <div className="relative rounded-3xl overflow-hidden shadow-xl shadow-stone-200/50 hidden md:block">
+            <Image
+              src="/images/Linqo_HERO.png"
+              alt="Casal a comunicar por telemóvel — o problema que o Linqo resolve"
+              width={600}
+              height={400}
+              className="w-full h-auto object-cover"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-stone-900/40 to-transparent" />
+            <p className="absolute bottom-4 left-4 right-4 text-sm text-white/90 font-medium">
+              &ldquo;Será que ela interpretou bem o que eu quis dizer?&rdquo;
+            </p>
+          </div>
+
+          {/* Chat mockup */}
+          <div className="mx-auto max-w-sm w-full">
           <div className="rounded-3xl border border-stone-200 bg-stone-50 shadow-xl shadow-stone-200/50 overflow-hidden">
             {/* App header */}
             <div className="flex items-center gap-3 bg-white px-4 py-3 border-b border-stone-100">
-              <div className="h-8 w-8 rounded-full bg-linqo-100 flex items-center justify-center">
-                {/* TODO: Replace with <Image src="/images/avatar-ana.jpg" /> */}
-                <Heart size={14} className="text-linqo-600" />
+              <div className="h-8 w-8 rounded-full overflow-hidden">
+                <Image
+                  src="/images/Linqo_Ana.png"
+                  alt="Ana"
+                  width={32}
+                  height={32}
+                  className="h-full w-full object-cover"
+                />
               </div>
               <div className="flex-1">
                 <p className="text-sm font-medium text-stone-900">Ana</p>
@@ -230,6 +254,7 @@ function Hero() {
                 <ArrowRight size={14} className="text-white" />
               </div>
             </div>
+          </div>
           </div>
         </div>
       </div>
@@ -473,16 +498,19 @@ const testimonials = [
     quote: "Mandei uma mensagem ao meu parceiro e o Linqo mostrou-me que soava como um ultimato. Reformulei em 5 segundos. Evitámos uma discussão de 3 horas.",
     name: "Mariana T.",
     role: "Utilizadora beta",
+    image: "/images/Linqo_Mariana.png",
   },
   {
     quote: "Uso no trabalho. Tinha um email para o chefe que parecia passivo-agressivo sem eu perceber. O Linqo apanhou e eu corrigi antes de enviar.",
     name: "Ricardo S.",
     role: "Utilizador beta",
+    image: "/images/Linqo_Ricardo.png",
   },
   {
     quote: "Finalmente uma app que não quer que eu fale mais — quer que eu fale melhor. A priorização das mensagens mudou a minha ansiedade.",
     name: "Sofia L.",
     role: "Utilizadora beta",
+    image: "/images/Linqo_Sofia.png",
   },
 ];
 
@@ -513,10 +541,14 @@ function SocialProof() {
               <Quote size={20} className="mb-3 text-linqo-300" />
               <p className="mb-4 text-sm leading-relaxed text-stone-700">{t.quote}</p>
               <div className="flex items-center gap-3">
-                {/* Placeholder: avatar image */}
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-linqo-100 text-xs font-medium text-linqo-700">
-                  {/* TODO: Replace with <Image src="/images/avatar-{name}.jpg" /> */}
-                  {t.name.split(" ").map(n => n[0]).join("")}
+                <div className="h-9 w-9 rounded-full overflow-hidden flex-shrink-0">
+                  <Image
+                    src={t.image}
+                    alt={t.name}
+                    width={36}
+                    height={36}
+                    className="h-full w-full object-cover"
+                  />
                 </div>
                 <div>
                   <p className="text-sm font-medium text-stone-900">{t.name}</p>

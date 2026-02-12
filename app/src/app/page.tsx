@@ -90,13 +90,30 @@ function Navbar() {
 function Hero() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const spotsLeft = 143;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) {
-      // TODO: Save to Supabase waitlist table
+    if (!email) return;
+    setLoading(true);
+    setError("");
+    try {
+      const res = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (!res.ok && res.status !== 200) {
+        const data = await res.json();
+        throw new Error(data.error || "Erro ao guardar");
+      }
       setSubmitted(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Erro ao guardar. Tenta novamente.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -148,10 +165,11 @@ function Hero() {
               />
               <button
                 type="submit"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-linqo-600 px-6 py-3 text-sm font-medium text-white transition-all hover:bg-linqo-700 hover:shadow-lg hover:shadow-linqo-600/25"
+                disabled={loading}
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-linqo-600 px-6 py-3 text-sm font-medium text-white transition-all hover:bg-linqo-700 hover:shadow-lg hover:shadow-linqo-600/25 disabled:opacity-60"
               >
-                Garantir lugar
-                <ArrowRight size={16} />
+                {loading ? "A guardar..." : "Garantir lugar"}
+                {!loading && <ArrowRight size={16} />}
               </button>
             </form>
           ) : (
@@ -159,6 +177,10 @@ function Hero() {
               <Check size={16} />
               <span>Estás na lista! Vamos contactar-te em breve.</span>
             </div>
+          )}
+
+          {error && (
+            <p className="mt-3 text-sm text-red-600 animate-fade-in">{error}</p>
           )}
 
           <p className="mt-4 text-sm text-stone-500 animate-slide-up" style={{ animationDelay: "0.3s" }}>
@@ -660,12 +682,30 @@ function Pricing() {
 function FinalCTA() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const spotsLeft = 143;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) {
+    if (!email) return;
+    setLoading(true);
+    setError("");
+    try {
+      const res = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (!res.ok && res.status !== 200) {
+        const data = await res.json();
+        throw new Error(data.error || "Erro ao guardar");
+      }
       setSubmitted(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Erro ao guardar. Tenta novamente.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -698,10 +738,11 @@ function FinalCTA() {
             />
             <button
               type="submit"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-linqo-900 transition-all hover:bg-linqo-50"
+              disabled={loading}
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-linqo-900 transition-all hover:bg-linqo-50 disabled:opacity-60"
             >
-              Garantir o meu lugar
-              <ArrowRight size={16} />
+              {loading ? "A guardar..." : "Garantir o meu lugar"}
+              {!loading && <ArrowRight size={16} />}
             </button>
           </form>
         ) : (
@@ -709,6 +750,10 @@ function FinalCTA() {
             <Check size={16} />
             <span>Estás na lista! Vamos contactar-te em breve.</span>
           </div>
+        )}
+
+        {error && (
+          <p className="mt-3 text-sm text-red-400 animate-fade-in">{error}</p>
         )}
       </div>
     </section>

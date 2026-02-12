@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import {
   Send,
   Brain,
@@ -18,8 +19,9 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { analyzeMessage, type EmotionalAnalysis } from "@/lib/ai/emotional-analysis";
+import { useChat, type ChatContact, type ChatMessage } from "@/lib/hooks/use-chat";
 
-// --- Types ---
+// --- Channel definitions ---
 
 interface Channel {
   id: string;
@@ -29,43 +31,10 @@ interface Channel {
   bgColor: string;
 }
 
-interface Contact {
-  id: string;
-  name: string;
-  initials: string;
-  lastMessage: string;
-  time: string;
-  unread: number;
-  online: boolean;
-}
-
-interface Message {
-  id: string;
-  text: string;
-  sender: "me" | "other";
-  time: string;
-  channel: string;
-}
-
-// --- Data ---
-
 const channels: Channel[] = [
   { id: "pessoal", name: "Pessoal", icon: Heart, color: "text-amber-700", bgColor: "bg-amber-100" },
   { id: "profissional", name: "Profissional", icon: Briefcase, color: "text-sky-700", bgColor: "bg-sky-100" },
   { id: "projectos", name: "Projectos", icon: FolderOpen, color: "text-teal-700", bgColor: "bg-teal-100" },
-];
-
-const demoContacts: Contact[] = [
-  { id: "1", name: "Ana Silva", initials: "AS", lastMessage: "Vamos jantar hoje?", time: "14:32", unread: 2, online: true },
-  { id: "2", name: "Marco Pereira", initials: "MP", lastMessage: "O projecto está quase...", time: "12:15", unread: 0, online: true },
-  { id: "3", name: "Sofia Costa", initials: "SC", lastMessage: "Obrigada pelo feedback!", time: "ontem", unread: 0, online: false },
-  { id: "4", name: "Rui Mendes", initials: "RM", lastMessage: "Precisamos de rever o plano", time: "ontem", unread: 1, online: false },
-];
-
-const demoMessages: Message[] = [
-  { id: "1", text: "Olá! Como estás?", sender: "other", time: "14:20", channel: "pessoal" },
-  { id: "2", text: "Estou bem, obrigada! E tu?", sender: "me", time: "14:21", channel: "pessoal" },
-  { id: "3", text: "Tudo óptimo. Vamos jantar hoje?", sender: "other", time: "14:32", channel: "pessoal" },
 ];
 
 // --- Components ---
@@ -76,12 +45,16 @@ function Sidebar({
   onSelectContact,
   sidebarOpen,
   onCloseSidebar,
+  onLogout,
+  authenticated,
 }: {
-  contacts: Contact[];
+  contacts: ChatContact[];
   activeContact: string;
   onSelectContact: (id: string) => void;
   sidebarOpen: boolean;
   onCloseSidebar: () => void;
+  onLogout: () => void;
+  authenticated: boolean;
 }) {
   return (
     <aside
@@ -161,11 +134,16 @@ function Sidebar({
 
       {/* Footer */}
       <div className="border-t border-stone-200 p-4">
-        <button className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm text-stone-600 transition-colors hover:bg-stone-100">
+        <button
+          onClick={authenticated ? onLogout : undefined}
+          className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm text-stone-600 transition-colors hover:bg-stone-100"
+        >
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-linqo-100">
             <User size={16} className="text-linqo-600" />
           </div>
-          <span className="flex-1 text-left font-medium">A minha conta</span>
+          <span className="flex-1 text-left font-medium">
+            {authenticated ? "Sair" : "A minha conta"}
+          </span>
           <LogOut size={16} className="text-stone-400" />
         </button>
       </div>
@@ -290,7 +268,7 @@ function ChatMessages({
   messages,
   messagesEndRef,
 }: {
-  messages: Message[];
+  messages: ChatMessage[];
   messagesEndRef: React.RefObject<HTMLDivElement | null>;
 }) {
   return (
@@ -421,9 +399,19 @@ function MessageInput({
 // --- Main Chat Page ---
 
 export default function ChatPage() {
-  const [activeContact, setActiveContact] = useState("1");
+  const router = useRouter();
+  const {
+    authenticated,
+    loading,
+    contacts,
+    messages,
+    sendMessage,
+    loadMessages,
+    logout,
+  } = useChat();
+
+  const [activeContact, setActiveContact] = useState(contacts[0]?.id || "1");
   const [activeChannel, setActiveChannel] = useState("pessoal");
-  const [messages, setMessages] = useState<Message[]>(demoMessages);
   const [analysis, setAnalysis] = useState<EmotionalAnalysis | null>(null);
   const [aiEnabled, setAiEnabled] = useState(true);
   const [analyzing, setAnalyzing] = useState(false);
@@ -435,18 +423,26 @@ export default function ChatPage() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const handleSend = (text: string) => {
-    const newMsg: Message = {
-      id: Date.now().toString(),
-      text,
-      sender: "me",
-      time: new Date().toLocaleTimeString("pt-PT", { hour: "2-digit", minute: "2-digit" }),
-      channel: activeChannel,
-    };
-    setMessages((prev) => [...prev, newMsg]);
-    setAnalysis(null);
-    setAnalyzing(false);
-  };
+  // Load messages when selecting a contact
+  const handleSelectContact = useCallback(
+    (contactId: string) => {
+      setActiveContact(contactId);
+      const contact = contacts.find((c) => c.id === contactId);
+      if (contact?.conversationId) {
+        loadMessages(contact.conversationId);
+      }
+    },
+    [contacts, loadMessages]
+  );
+
+  const handleSend = useCallback(
+    (text: string) => {
+      sendMessage(text, activeChannel);
+      setAnalysis(null);
+      setAnalyzing(false);
+    },
+    [sendMessage, activeChannel]
+  );
 
   // Live analysis as user types (debounced)
   const handleInputChange = useCallback(
@@ -476,7 +472,25 @@ export default function ChatPage() {
     return () => textarea.removeEventListener("input", handler);
   }, [handleInputChange]);
 
-  const contact = demoContacts.find((c) => c.id === activeContact);
+  const handleLogout = useCallback(async () => {
+    await logout();
+    router.push("/");
+  }, [logout, router]);
+
+  const contact = contacts.find((c) => c.id === activeContact);
+
+  if (loading) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-stone-50">
+        <div className="text-center">
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-linqo-600 text-xl font-bold text-white">
+            L
+          </div>
+          <p className="text-sm text-stone-500">A carregar...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-screen bg-stone-50">
@@ -489,11 +503,13 @@ export default function ChatPage() {
       )}
 
       <Sidebar
-        contacts={demoContacts}
+        contacts={contacts}
         activeContact={activeContact}
-        onSelectContact={setActiveContact}
+        onSelectContact={handleSelectContact}
         sidebarOpen={sidebarOpen}
         onCloseSidebar={() => setSidebarOpen(false)}
+        onLogout={handleLogout}
+        authenticated={authenticated}
       />
 
       {/* Main chat area */}

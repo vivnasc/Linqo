@@ -87,8 +87,19 @@ create policy "Users can view their conversations"
     id in (select conversation_id from conversation_participants where user_id = auth.uid())
   );
 
+create policy "Users can create conversations"
+  on conversations for insert with check (true);
+
+create policy "Users can update their conversations"
+  on conversations for update using (
+    id in (select conversation_id from conversation_participants where user_id = auth.uid())
+  );
+
 create policy "Users can view their participations"
   on conversation_participants for select using (auth.uid() = user_id);
+
+create policy "Users can add participants"
+  on conversation_participants for insert with check (auth.uid() = user_id);
 
 -- Mensagens
 create table if not exists messages (

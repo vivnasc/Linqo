@@ -26,6 +26,10 @@ export default function RegistroPage() {
     try {
       const { createClient } = await import("@/lib/supabase/client");
       const supabase = createClient();
+      if (!supabase) {
+        setError("Supabase não está configurado.");
+        return;
+      }
       const { error: authError } = await supabase.auth.signUp({
         email,
         password,

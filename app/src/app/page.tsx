@@ -122,7 +122,7 @@ function Hero() {
               <ArrowRight size={16} />
             </a>
             <p className="text-sm text-stone-500">
-              Gratuito. Sem registo obrigatório.
+              Gratuito. Só precisas do teu email.
             </p>
           </div>
         </div>
@@ -380,43 +380,49 @@ const features = [
     icon: Brain,
     title: "Análise Emocional por IA",
     description:
-      "Antes de enviares, a IA analisa o tom da tua mensagem. Directo demais? Passivo-agressivo? Recebes sugestões em tempo real.",
+      "Antes de enviares, a IA analisa o tom da tua mensagem. Directo demais? Passivo-agressivo? Recebes feedback em tempo real.",
     color: "bg-linqo-100 text-linqo-700",
+    available: true,
+  },
+  {
+    icon: Sparkles,
+    title: "Reformulação Inteligente",
+    description:
+      "O Linqo sugere uma versão mais empática da tua mensagem. Tu decides se usas, adaptas ou ignoras. O controlo é sempre teu.",
+    color: "bg-teal-100 text-teal-700",
+    available: true,
+  },
+  {
+    icon: Shield,
+    title: "Detecção de Padrões",
+    description:
+      "Passivo-agressivo, culpa, sarcasmo, ultimato — o Linqo identifica padrões que o outro vai sentir, mesmo que tu não vejas.",
+    color: "bg-amber-100 text-amber-700",
+    available: true,
   },
   {
     icon: MessageCircle,
     title: "Canais de Intenção",
     description:
-      "Separa conversas por contexto — pessoal, profissional, projectos. Cada canal tem o seu tom e as suas regras.",
+      "Separa conversas por contexto — pessoal, profissional, projectos. Cada canal com o seu tom e as suas regras.",
     color: "bg-sky-100 text-sky-700",
-  },
-  {
-    icon: Clock,
-    title: "Priorização Inteligente",
-    description:
-      "As mensagens recebidas são classificadas automaticamente: urgente, pode esperar, quando quiseres. Acabou a ansiedade.",
-    color: "bg-slate-100 text-slate-700",
+    available: false,
   },
   {
     icon: Heart,
     title: "Memória Relacional",
     description:
       "O Linqo aprende os padrões de cada relação. Sabe quando uma conversa precisa de mais cuidado e adapta as sugestões.",
-    color: "bg-amber-100 text-amber-700",
-  },
-  {
-    icon: Shield,
-    title: "Filtro de Chegada",
-    description:
-      "Controla quem te pode contactar. Novos contactos passam por aprovação. O teu espaço, as tuas regras.",
     color: "bg-stone-200 text-stone-700",
+    available: false,
   },
   {
-    icon: Sparkles,
+    icon: Clock,
     title: "Sugestões de Timing",
     description:
       "Nem toda a mensagem deve ser enviada agora. A IA sugere o melhor momento para comunicar, com base no contexto.",
-    color: "bg-teal-100 text-teal-700",
+    color: "bg-slate-100 text-slate-700",
+    available: false,
   },
 ];
 
@@ -426,10 +432,10 @@ function Features() {
       <div className="mx-auto max-w-6xl px-6">
         <div className="mx-auto mb-16 max-w-2xl text-center">
           <h2 className="mb-4 text-3xl font-bold text-stone-900 md:text-4xl">
-            Tudo o que precisas para comunicar melhor
+            O que o Linqo faz por ti
           </h2>
           <p className="text-lg text-stone-600">
-            Não é mais uma app de mensagens. É a primeira app que se preocupa com o impacto das tuas palavras.
+            Uma ferramenta de inteligência emocional que te ajuda a comunicar melhor — já disponível, a crescer todos os dias.
           </p>
         </div>
 
@@ -437,13 +443,28 @@ function Features() {
           {features.map((feature) => (
             <div
               key={feature.title}
-              className="group rounded-2xl border border-stone-200 bg-white p-6 transition-all hover:border-linqo-200 hover:shadow-lg hover:shadow-linqo-100/50"
+              className={`group rounded-2xl border p-6 transition-all ${
+                feature.available
+                  ? "border-stone-200 bg-white hover:border-linqo-200 hover:shadow-lg hover:shadow-linqo-100/50"
+                  : "border-stone-100 bg-stone-50/50"
+              }`}
             >
-              <div className={`mb-4 inline-flex rounded-xl p-3 ${feature.color}`}>
-                <feature.icon size={22} />
+              <div className="mb-4 flex items-center justify-between">
+                <div className={`inline-flex rounded-xl p-3 ${feature.color}`}>
+                  <feature.icon size={22} />
+                </div>
+                {!feature.available && (
+                  <span className="rounded-full bg-stone-100 px-2.5 py-0.5 text-[10px] font-medium text-stone-500 uppercase tracking-wide">
+                    Em breve
+                  </span>
+                )}
               </div>
-              <h3 className="mb-2 text-lg font-semibold text-stone-900">{feature.title}</h3>
-              <p className="text-sm leading-relaxed text-stone-600">{feature.description}</p>
+              <h3 className={`mb-2 text-lg font-semibold ${feature.available ? "text-stone-900" : "text-stone-500"}`}>
+                {feature.title}
+              </h3>
+              <p className={`text-sm leading-relaxed ${feature.available ? "text-stone-600" : "text-stone-400"}`}>
+                {feature.description}
+              </p>
             </div>
           ))}
         </div>

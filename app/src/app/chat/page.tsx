@@ -95,143 +95,136 @@ function EmailGate({ onSubmit }: { onSubmit: (email: string, name: string) => vo
   );
 }
 
-// --- Emotional Result ---
+// --- Emotional Reading ---
 
-function EmotionalResult({ analysis, rewriteUsed, onUseRewrite }: {
+function EmotionalReading({ analysis, rewriteUsed, onUseRewrite }: {
   analysis: EmotionalAnalysis;
   rewriteUsed: boolean;
   onUseRewrite: () => void;
 }) {
-  const colorMap = {
-    positivo: "border-teal-200 bg-teal-50 text-teal-900",
-    neutro: "border-stone-200 bg-stone-50 text-stone-700",
-    negativo: "border-red-200 bg-red-50 text-red-900",
-    misto: "border-amber-200 bg-amber-50 text-amber-900",
-  };
+  const hasTension = analysis.tension > 0;
+  const isPositive = analysis.sentiment === "positivo" && !hasTension;
+  const isNeutral = analysis.sentiment === "neutro" && !hasTension;
 
-  const sentimentLabel = {
-    positivo: "Positivo",
-    neutro: "Neutro",
-    negativo: "Cuidado",
-    misto: "Misto",
-  };
+  // Positive / neutral — short confirmation
+  if (isPositive || isNeutral) {
+    return (
+      <div className="animate-fade-in space-y-4">
+        {/* Positive reading */}
+        <div className="rounded-2xl border border-teal-200 bg-teal-50 p-6 text-teal-900">
+          <div className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider opacity-60">
+            <Heart size={12} />
+            <span>Leitura emocional</span>
+          </div>
 
-  const sentimentIcon = {
-    positivo: <Heart size={14} className="text-teal-600" />,
-    neutro: <Check size={14} className="text-stone-500" />,
-    negativo: <AlertTriangle size={14} className="text-red-500" />,
-    misto: <Sparkles size={14} className="text-amber-600" />,
-  };
+          {analysis.insight ? (
+            <p className="text-sm leading-relaxed">{analysis.insight}</p>
+          ) : (
+            <p className="text-sm leading-relaxed">
+              {isPositive
+                ? "Esta mensagem transmite carinho genuíno. O outro vai sentir-se visto e importante. Envia com confiança."
+                : "Mensagem clara e sem carga emocional. Sem riscos de mal-entendidos."}
+            </p>
+          )}
 
-  const tensionColor =
-    analysis.tension > 6 ? "bg-red-500" : analysis.tension > 3 ? "bg-amber-500" : "bg-teal-500";
-
-  return (
-    <div className={`rounded-2xl border p-5 ${colorMap[analysis.sentiment]} animate-fade-in`}>
-      {/* Header */}
-      <div className="mb-4 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Brain size={16} />
-          <span className="text-sm font-semibold">Análise emocional</span>
-        </div>
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-white/60 px-3 py-1 text-xs font-medium">
-          {sentimentIcon[analysis.sentiment]}
-          {sentimentLabel[analysis.sentiment]}
-        </span>
-      </div>
-
-      {/* Tone */}
-      <div className="mb-4">
-        <p className="text-sm">
-          <span className="opacity-70">Tom detectado: </span>
-          <strong className="capitalize">{analysis.tone}</strong>
-        </p>
-        <p className="mt-1 text-xs opacity-60">Intensidade: {analysis.intensity}</p>
-      </div>
-
-      {/* Tension bar */}
-      <div className="mb-4">
-        <div className="mb-1 flex items-center justify-between text-xs">
-          <span className="opacity-70">Nível de tensão</span>
-          <span className="font-semibold">{analysis.tension}/10</span>
-        </div>
-        <div className="h-2.5 w-full rounded-full bg-white/60">
-          <div
-            className={`h-full rounded-full transition-all duration-500 ${tensionColor}`}
-            style={{ width: `${Math.max(analysis.tension * 10, 3)}%` }}
-          />
-        </div>
-      </div>
-
-      {/* Patterns detected */}
-      {analysis.patterns.length > 0 && (
-        <div className="mb-4">
-          <p className="mb-2 text-xs font-semibold opacity-70">Padrões detectados:</p>
-          <div className="flex flex-wrap gap-1.5">
-            {analysis.patterns.map((pattern) => (
-              <span
-                key={pattern}
-                className="inline-block rounded-full bg-white/50 px-2.5 py-1 text-xs font-medium"
-              >
-                {pattern}
-              </span>
-            ))}
+          <div className="mt-3 flex items-center gap-2 text-xs opacity-50">
+            <span className="capitalize">Tom: {analysis.tone}</span>
           </div>
         </div>
-      )}
+      </div>
+    );
+  }
 
-      {/* Suggestion */}
-      {analysis.suggestion && (
-        <div className="mb-4 flex items-start gap-2 rounded-xl bg-white/50 p-3">
-          <Sparkles size={14} className="mt-0.5 shrink-0 opacity-70" />
-          <p className="text-sm leading-relaxed">{analysis.suggestion}</p>
+  // Tension detected — full reading
+  return (
+    <div className="animate-fade-in space-y-4">
+      {/* 1. SUBTEXT — "O que dizes vs. o que o outro ouve" */}
+      {analysis.subtext && (
+        <div className="rounded-2xl border border-stone-200 bg-white p-6">
+          <div className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-stone-400">
+            <Brain size={12} />
+            <span>O que o outro vai ouvir</span>
+          </div>
+          <p className="text-base leading-relaxed text-stone-800 italic">
+            {analysis.subtext}
+          </p>
         </div>
       )}
 
-      {/* Rewrite */}
+      {/* 2. RECEIVER PERSPECTIVE */}
+      {analysis.receiverPerspective && (
+        <div className="rounded-2xl border border-amber-200 bg-amber-50 p-6">
+          <div className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-700/60">
+            <AlertTriangle size={12} />
+            <span>Como o outro vai reagir</span>
+          </div>
+          <p className="text-sm leading-relaxed text-amber-900">
+            {analysis.receiverPerspective}
+          </p>
+        </div>
+      )}
+
+      {/* 3. INSIGHT — the deep observation */}
+      {analysis.insight && (
+        <div className="rounded-2xl border border-linqo-200 bg-linqo-50 p-6">
+          <div className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-linqo-600/60">
+            <Sparkles size={12} />
+            <span>O que está realmente a acontecer</span>
+          </div>
+          <p className="text-sm leading-relaxed text-linqo-900">
+            {analysis.insight}
+          </p>
+        </div>
+      )}
+
+      {/* 4. SUGGESTION — what to do */}
+      {analysis.suggestion && (
+        <div className="rounded-2xl border border-stone-200 bg-stone-50 p-6">
+          <div className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-stone-400">
+            <ArrowRight size={12} />
+            <span>O que podes fazer</span>
+          </div>
+          <p className="text-sm leading-relaxed text-stone-700">
+            {analysis.suggestion}
+          </p>
+        </div>
+      )}
+
+      {/* 5. REWRITE — the alternative */}
       {analysis.rewrite && (
-        <div className="rounded-xl border border-white/40 bg-white/60 p-4">
-          <p className="mb-2 text-xs font-semibold opacity-70">Versão sugerida:</p>
-          <p className="mb-3 text-sm leading-relaxed italic">&ldquo;{analysis.rewrite}&rdquo;</p>
+        <div className="rounded-2xl border border-teal-200 bg-teal-50 p-6">
+          <div className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-teal-600/60">
+            <Heart size={12} />
+            <span>Versão alternativa</span>
+          </div>
+          <p className="mb-4 text-base leading-relaxed text-teal-900">
+            &ldquo;{analysis.rewrite}&rdquo;
+          </p>
           <button
             onClick={onUseRewrite}
             disabled={rewriteUsed}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-white px-3 py-1.5 text-xs font-medium shadow-sm transition-all hover:shadow disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-teal-600 px-4 py-2 text-xs font-medium text-white shadow-sm transition-all hover:bg-teal-700 disabled:bg-teal-400"
           >
             {rewriteUsed ? (
               <>
                 <Check size={12} />
-                Copiada
+                Copiada para o clipboard
               </>
             ) : (
               <>
                 <Copy size={12} />
-                Copiar versão melhorada
+                Copiar esta versão
               </>
             )}
           </button>
         </div>
       )}
 
-      {/* Positive message — no suggestion needed */}
-      {!analysis.suggestion && !analysis.rewrite && analysis.sentiment === "positivo" && (
-        <div className="flex items-start gap-2 rounded-xl bg-white/50 p-3">
-          <Heart size={14} className="mt-0.5 shrink-0 text-teal-600" />
-          <p className="text-sm leading-relaxed">
-            Esta mensagem transmite exactamente o que queres. Envia com confiança.
-          </p>
-        </div>
-      )}
-
-      {/* Neutral — no issues */}
-      {!analysis.suggestion && !analysis.rewrite && analysis.sentiment === "neutro" && (
-        <div className="flex items-start gap-2 rounded-xl bg-white/50 p-3">
-          <Check size={14} className="mt-0.5 shrink-0 text-stone-500" />
-          <p className="text-sm leading-relaxed">
-            Tom neutro e claro. Sem tensão detectada.
-          </p>
-        </div>
-      )}
+      {/* Subtle metadata */}
+      <div className="flex items-center justify-between px-1 text-xs text-stone-400">
+        <span className="capitalize">Tom: {analysis.tone}</span>
+        <span>Tensão: {analysis.tension}/10</span>
+      </div>
     </div>
   );
 }
@@ -482,7 +475,7 @@ export default function ChatPage() {
         {/* Analysis result */}
         {analysis && (
           <div className="mb-8">
-            <EmotionalResult
+            <EmotionalReading
               analysis={analysis}
               rewriteUsed={rewriteUsed}
               onUseRewrite={handleUseRewrite}

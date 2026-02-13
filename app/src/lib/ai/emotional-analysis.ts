@@ -619,9 +619,14 @@ function generateSuggestion(tension: number, patterns: PatternMatch[]): string |
 // --- Rewrite ---
 
 function generateRewrite(message: string, tension: number, patterns: PatternMatch[]): string | null {
-  if (tension <= 2) return null;
-
   const names = new Set(patterns.map(p => p.name));
+
+  // Patterns that ALWAYS get a rewrite, regardless of tension score
+  const alwaysRewrite = ["terse", "cold-short", "passive-aggressive", "forced-apology",
+    "self-blame-passive", "talk-trigger", "subtle-dismissal"];
+  const hasSpecificPattern = alwaysRewrite.some(p => names.has(p));
+
+  if (tension < 1.5 && !hasSpecificPattern) return null;
   let rewrite = message;
 
   rewrite = rewrite.replace(/\bsempre\b/gi, "muitas vezes");
@@ -725,6 +730,17 @@ function generateRewrite(message: string, tension: number, patterns: PatternMatc
   if (names.has("forced-apology")) {
     rewrite = rewrite.replace(/\bpronto,? desculpa\b/gi, "peço desculpa — percebo que te magoei");
     rewrite = rewrite.replace(/\bdesculpa lá\b/gi, "peço-te desculpa sinceramente");
+  }
+
+  // Subtle dismissal rewrites
+  if (names.has("subtle-dismissal")) {
+    rewrite = rewrite.replace(/\bnão te preocupes\b/gi, "percebo que te preocupa, vamos resolver");
+    rewrite = rewrite.replace(/\bnão faz mal\b/gi, "percebo — obrigado/a por dizeres");
+    rewrite = rewrite.replace(/\bdeixa lá\b/gi, "quero perceber melhor o que se passa");
+    rewrite = rewrite.replace(/\bestá tudo bem\b/gi, "obrigado/a por perguntares — estou a processar");
+    rewrite = rewrite.replace(/\bnão há problema\b/gi, "tudo bem, obrigado/a por teres tido esse cuidado");
+    rewrite = rewrite.replace(/\bnão é preciso\b/gi, "agradeço a oferta — de momento estou bem");
+    rewrite = rewrite.replace(/\beu sei\b/gi, "sim, percebi — obrigado/a");
   }
 
   rewrite = rewrite.replace(/!{2,}/g, ".");
